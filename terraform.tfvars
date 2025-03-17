@@ -1,1 +1,2 @@
-vm_password = "Shashwat@14"
+location    = "eastus"
+vm_password = "P@ssw0rd123!"
