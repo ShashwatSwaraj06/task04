@@ -111,11 +111,12 @@ resource "azurerm_linux_virtual_machine" "vm" {
 
   # Corrected image reference
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "20_04-lts" # Updated to a generic SKU
+    publisher = "canonical"
+    offer     = "ubuntu-24_04-lts"
+    sku       = "server"
     version   = "latest"
   }
+
 
   provisioner "remote-exec" {
     inline = [
