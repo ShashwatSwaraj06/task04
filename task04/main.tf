@@ -22,7 +22,7 @@ resource "azurerm_subnet" "subnet" {
 resource "azurerm_public_ip" "pip" {
   name                = var.public_ip_name
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   domain_name_label   = var.dns_name_label
   tags                = var.tags
@@ -31,7 +31,7 @@ resource "azurerm_public_ip" "pip" {
 resource "azurerm_network_security_group" "nsg" {
   name                = var.nsg_name
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
   tags                = var.tags
 }
 
@@ -42,11 +42,11 @@ resource "azurerm_network_security_rule" "http_rule" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = "80"
+  destination_port_range      = 80
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   network_security_group_name = azurerm_network_security_group.nsg.name
-  resource_group_name         = azurerm_resource_group.rg.name
+  resource_group_name         = var.resource_group_name
 }
 
 resource "azurerm_network_security_rule" "ssh_rule" {
@@ -56,17 +56,17 @@ resource "azurerm_network_security_rule" "ssh_rule" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = "22"
+  destination_port_range      = 22
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   network_security_group_name = azurerm_network_security_group.nsg.name
-  resource_group_name         = azurerm_resource_group.rg.name
+  resource_group_name         = var.resource_group_name
 }
 
 resource "azurerm_network_interface" "nic" {
   name                = var.network_interface_name
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = var.ip_configuration_name
@@ -84,16 +84,16 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                       = var.vm_name
-  location                   = var.location
-  resource_group_name        = azurerm_resource_group.rg.name
-  size                       = var.vm_size
-  admin_username             = var.vm_admin_username
-  admin_password             = var.vm_password
-  network_interface_ids      = [azurerm_network_interface.nic.id]
-  priority                   = "Regular"
-  allow_extension_operations = true
-
+  name                 = var.vm_name
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  size                 = var.vm_size
+  admin_username       = var.vm_admin_username
+  admin_password       = var.vm_password
+  disable_password_authentication = false # Enable password authentication
+  network_interface_ids           = [azurerm_network_interface.nic.id]
+  priority                        = "Regular"
+  
   os_disk {
     name                 = "${var.vm_name}-osdisk"
     caching              = "ReadWrite"
@@ -116,10 +116,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
     ]
 
     connection {
-      type     = "ssh"
-      host     = azurerm_public_ip.pip.ip_address
-      user     = var.vm_admin_username
-      password = var.vm_password
+      type        = "ssh"
+      host        = azurerm_public_ip.pip.ip_address
+      user        = var.vm_admin_username
+      password    = var.vm_password
     }
   }
 
