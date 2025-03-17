@@ -1,68 +1,93 @@
 variable "resource_group_name" {
-  description = "Name of the resource group"
   type        = string
+  description = "Name of the resource group to provision resources."
 }
 
 variable "location" {
-  description = "Azure region where resources will be deployed"
   type        = string
-  default     = "East US"
+  description = "Azure region where resources will be provisioned."
+  default     = "eastus"
 }
 
-variable "vnet_name" {
-  description = "Name of the virtual network"
+variable "virtual_network_name" {
   type        = string
+  description = "Name of the virtual network."
 }
 
 variable "subnet_name" {
-  description = "Name of the subnet"
   type        = string
-}
-
-variable "nsg_name" {
-  description = "Name of the network security group"
-  type        = string
+  description = "Name of the subnet inside the virtual network."
 }
 
 variable "public_ip_name" {
-  description = "Name of the public IP address"
   type        = string
+  description = "Name of the public IP resource."
 }
 
 variable "dns_name_label" {
-  description = "DNS name label for the public IP"
   type        = string
+  description = "DNS label for the public IP resource."
 }
 
-variable "nic_name" {
-  description = "Name of the network interface"
+variable "nsg_name" {
   type        = string
+  description = "Name of the Network Security Group (NSG)."
+}
+
+variable "http_rule_name" {
+  type        = string
+  description = "Name of the HTTP rule in the NSG."
+}
+
+variable "ssh_rule_name" {
+  type        = string
+  description = "Name of the SSH rule in the NSG."
+}
+
+variable "network_interface_name" {
+  type        = string
+  description = "Name of the Network Interface (NIC)."
 }
 
 variable "vm_name" {
-  description = "Name of the virtual machine"
   type        = string
+  description = "Name of the Linux virtual machine."
 }
 
 variable "vm_os_version" {
-  description = "OS version for the virtual machine"
   type        = string
-  default     = "ubuntu-24_04-lts"
+  description = "OS version for the virtual machine."
+  default     = "UbuntuLTS"
 }
 
-variable "vm_sku" {
-  description = "SKU for the virtual machine"
+variable "vm_size" {
   type        = string
+  description = "Size of the virtual machine (e.g., Standard_F2s_v2)."
   default     = "Standard_F2s_v2"
 }
 
-variable "tags" {
-  description = "Tags to apply to resources"
-  type        = map(string)
+variable "vm_admin_username" {
+  type        = string
+  description = "Admin username for the VM."
+  default     = "azureuser"
 }
 
 variable "vm_password" {
-  description = "Password for the virtual machine"
   type        = string
+  description = "Admin password for the VM."
   sensitive   = true
+}
+
+variable "ip_configuration_name" {
+  type        = string
+  description = "Name of the IP configuration for the NIC."
+  default     = "ip_config"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to assign to resources."
+  default = {
+    Creator = "shashwat_swaraj@epam.com"
+  }
 }
