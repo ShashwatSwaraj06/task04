@@ -84,16 +84,16 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                 = var.vm_name
-  location             = var.location
-  resource_group_name  = var.resource_group_name
-  size                 = var.vm_size
-  admin_username       = var.vm_admin_username
-  admin_password       = var.vm_password
+  name                            = var.vm_name
+  location                        = var.location
+  resource_group_name             = var.resource_group_name
+  size                            = var.vm_size
+  admin_username                  = var.vm_admin_username
+  admin_password                  = var.vm_password
   disable_password_authentication = false # Enable password authentication
   network_interface_ids           = [azurerm_network_interface.nic.id]
   priority                        = "Regular"
-  
+
   os_disk {
     name                 = "${var.vm_name}-osdisk"
     caching              = "ReadWrite"
@@ -116,10 +116,10 @@ resource "azurerm_linux_virtual_machine" "vm" {
     ]
 
     connection {
-      type        = "ssh"
-      host        = azurerm_public_ip.pip.ip_address
-      user        = var.vm_admin_username
-      password    = var.vm_password
+      type     = "ssh"
+      host     = azurerm_public_ip.pip.ip_address
+      user     = var.vm_admin_username
+      password = var.vm_password
     }
   }
 
