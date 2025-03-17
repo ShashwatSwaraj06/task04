@@ -63,6 +63,7 @@ variable "vm_os_version" {
 variable "vm_size" {
   type        = string
   description = "Size of the virtual machine (e.g., Standard_F2s_v2)."
+  default     = "Standard_F2s_v2" # Updated to specify default SKU
 }
 
 variable "tags" {
@@ -75,13 +76,13 @@ variable "tags" {
 
 variable "vm_admin_username" {
   type        = string
-  description = "Admin username for the VM."
+  description = "Admin username for the virtual machine."
   default     = "azureuser"
 }
 
 variable "vm_password" {
   type        = string
-  description = "Admin password for the VM."
+  description = "Admin password for the virtual machine."
   sensitive   = true
 }
 
