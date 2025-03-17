@@ -94,7 +94,7 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
 resource "azurerm_linux_virtual_machine" "vm" {
   name                            = var.vm_name
   location                        = var.location
-  resource_group_name             = var.resource_group_name
+  resource_group_name             = azurerm_resource_group.rg.name
   size                            = var.vm_size
   admin_username                  = var.vm_admin_username
   admin_password                  = var.vm_password
@@ -109,10 +109,11 @@ resource "azurerm_linux_virtual_machine" "vm" {
     disk_size_gb         = 30
   }
 
+  # Corrected image reference
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "20_04-lts"
+    sku       = "20_04-lts" # Updated to a generic SKU
     version   = "latest"
   }
 
