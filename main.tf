@@ -24,10 +24,8 @@ resource "azurerm_public_ip" "pip" {
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
-  dns_settings {
-    domain_name_label = var.dns_name_label
-  }
-  tags = var.tags
+  domain_name_label   = var.dns_name_label
+  tags                = var.tags
 }
 
 resource "azurerm_network_security_group" "nsg" {
@@ -48,6 +46,7 @@ resource "azurerm_network_security_rule" "http_rule" {
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   network_security_group_name = azurerm_network_security_group.nsg.name
+  resource_group_name         = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_network_security_rule" "ssh_rule" {
@@ -61,6 +60,7 @@ resource "azurerm_network_security_rule" "ssh_rule" {
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   network_security_group_name = azurerm_network_security_group.nsg.name
+  resource_group_name         = azurerm_resource_group.rg.name
 }
 
 resource "azurerm_network_interface" "nic" {
