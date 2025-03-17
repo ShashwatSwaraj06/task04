@@ -1,66 +1,92 @@
 variable "resource_group_name" {
-  default = "cmaz-57d8b090-mod4-rg"
+  type        = string
+  description = "Name of the resource group where resources are provisioned."
 }
 
 variable "location" {
-  default = "eastus"
+  type        = string
+  description = "Azure region where resources are provisioned."
+  default     = "eastus"
 }
 
 variable "virtual_network_name" {
-  default = "cmaz-57d8b090-mod4-vnet"
+  type        = string
+  description = "Name of the virtual network."
 }
 
 variable "subnet_name" {
-  default = "frontend"
+  type        = string
+  description = "Name of the subnet inside the virtual network."
 }
 
 variable "public_ip_name" {
-  default = "cmaz-57d8b090-mod4-pip"
+  type        = string
+  description = "Name of the public IP resource."
 }
 
 variable "dns_name_label" {
-  default = "cmaz-57d8b090-mod4-nginx"
+  type        = string
+  description = "DNS label for the public IP."
 }
 
 variable "nsg_name" {
-  default = "cmaz-57d8b090-mod4-nsg"
+  type        = string
+  description = "Name of the Network Security Group (NSG)."
 }
 
 variable "http_rule_name" {
-  default = "AllowHTTP"
+  type        = string
+  description = "Name of the HTTP rule in the NSG."
 }
 
 variable "ssh_rule_name" {
-  default = "AllowSSH"
+  type        = string
+  description = "Name of the SSH rule in the NSG."
 }
 
 variable "network_interface_name" {
-  default = "cmaz-57d8b090-mod4-nic"
+  type        = string
+  description = "Name of the network interface."
 }
 
 variable "vm_name" {
-  default = "cmaz-57d8b090-mod4-vm"
+  type        = string
+  description = "Name of the Linux virtual machine."
 }
 
 variable "vm_os_version" {
-  default = "UbuntuLTS"
+  type        = string
+  description = "OS version used to provision the virtual machine."
+  default     = "UbuntuLTS"
 }
 
 variable "vm_size" {
-  default = "Standard_F2s_v2"
+  type        = string
+  description = "Size of the virtual machine (e.g., Standard_F2s_v2)."
 }
 
 variable "tags" {
+  type        = map(string)
+  description = "Tags to assign to resources."
   default = {
     Creator = "shashwat_swaraj@epam.com"
   }
 }
 
 variable "vm_admin_username" {
-  default = "azureuser"
+  type        = string
+  description = "Admin username for the VM."
+  default     = "azureuser"
 }
 
 variable "vm_password" {
-  description = "Admin password for the VM"
+  type        = string
+  description = "Admin password for the VM."
   sensitive   = true
+}
+
+variable "ip_configuration_name" {
+  type        = string
+  description = "Name of the IP configuration for the Network Interface."
+  default     = "ip_config"
 }

@@ -67,12 +67,14 @@ resource "azurerm_network_interface" "nic" {
   name                = var.network_interface_name
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
+
   ip_configuration {
-    name                          = "internal"
+    name                          = var.ip_configuration_name
     subnet_id                     = azurerm_subnet.subnet.id
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.pip.id
   }
+
   tags = var.tags
 }
 
@@ -82,20 +84,18 @@ resource "azurerm_network_interface_security_group_association" "nsg_association
 }
 
 resource "azurerm_linux_virtual_machine" "vm" {
-  name                = var.vm_name
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  size                = var.vm_size
-  admin_username      = var.vm_admin_username
-  admin_password      = var.vm_password
-  network_interface_ids = [
-    azurerm_network_interface.nic.id
-  ]
+  name                       = var.vm_name
+  location                   = var.location
+  resource_group_name        = azurerm_resource_group.rg.name
+  size                       = var.vm_size
+  admin_username             = var.vm_admin_username
+  admin_password             = var.vm_password
+  network_interface_ids      = [azurerm_network_interface.nic.id]
   priority                   = "Regular"
   allow_extension_operations = true
 
   os_disk {
-    name                 = "${var.vm_name}-disk"
+    name                 = "${var.vm_name}-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
     disk_size_gb         = 30
